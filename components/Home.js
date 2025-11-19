@@ -9,7 +9,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-function Home() {
+export default function Home({navigation}) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView>
@@ -221,4 +221,3 @@ img: {
 
 })
 
-export default Home
