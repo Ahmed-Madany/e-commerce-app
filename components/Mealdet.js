@@ -5,8 +5,34 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Mealdet({ route }) {
+export default function Mealdet({ route , navigation}) {
+async function saveToStorage() {
+  try {
+    let cart = [];
+    const oldCart = await AsyncStorage.getItem("cart");
+
+    if (oldCart !== null) {
+      cart = JSON.parse(oldCart);
+    }
+
+    const index = cart.findIndex(item => item.idMeal === meal.idMeal);
+
+    if (index !== -1) {
+      cart[index].quantity += 1;
+    } else {
+      cart.push({ ...meal, quantity: 1 });
+    }
+
+    await AsyncStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("Added to cart");
+
+  } catch (e) {
+    console.log("Error:", e);
+  }
+}
 
   const { meal } = route.params;
 
@@ -84,10 +110,16 @@ export default function Mealdet({ route }) {
 
         </ScrollView>
       <View >
-        <TouchableOpacity style={styles.cartBtn}>
-          <MaterialCommunityIcons name="cart-plus" size={22} color="white" />
-          <Text style={styles.cartText}>Add to Cart</Text>
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.cartBtn}
+  onPress={() => {
+    saveToStorage();
+    navigation.navigate("Cart");
+  }}
+>
+  <MaterialCommunityIcons name="cart-plus" size={22} color="white" />
+  <Text style={styles.cartText}>Add to Cart</Text>
+</TouchableOpacity>
+
       </View>
 
       </ScrollView>

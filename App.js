@@ -7,6 +7,7 @@ import Review from './components/Review';
 import Mealdet from './components/Mealdet';
 import { ThemeProvider } from './context/ThemeContext';
 import { useState } from 'react';
+import Cart from './components/Cart';
 
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
@@ -38,6 +39,15 @@ function MyTabs() {
           )
         }}
       />
+      <Bottom.Screen
+      name="Cart"
+      component={Cart}
+      options={{
+        tabBarIcon: ({ color }) => (
+          <AntDesign name="shopping-cart" size={24} color={color} />
+        )
+      }}
+    />
     </Bottom.Navigator>
   );
 }
@@ -60,6 +70,11 @@ export default function App() {
         <Stack.Screen 
           name="Mealdet" 
           component={Mealdet} 
+        />
+
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -9,23 +9,31 @@ export default function Mealcard({ Meal, navigation }) {
   const [modalVisible, setVisible] = useState(false);
    async function saveToStorage() {
   try {
-    await AsyncStorage.setItem("meal", JSON.stringify(Meal));
-    console.log("Saved Successfully");
+    let cart = [];
+    const oldCart = await AsyncStorage.getItem("cart");
+
+    if (oldCart !== null) {
+      cart = JSON.parse(oldCart);
+    }
+
+    const index = cart.findIndex(item => item.idMeal === Meal.idMeal);
+
+    if (index !== -1) {
+      cart[index].quantity += 1;
+    } else {
+      cart.push({ ...Meal, quantity: 1 });
+    }
+
+    await AsyncStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("Added to cart");
+
   } catch (e) {
-    console.log("Error Saving:", e);
+    console.log("Error:", e);
   }
 }
 
-  async function getFormStoge() {
-  try {
-    const jsonValue = await AsyncStorage.getItem("meal");
-    if(jsonValue !== null) {
-      console.log("Stored Meal:", JSON.parse(jsonValue));
-    }
-  } catch (e) {
-    console.log("Error Reading:", e);
-  }
-}
+ 
 
   return (
     <TouchableOpacity 
@@ -45,12 +53,15 @@ export default function Mealcard({ Meal, navigation }) {
 
 <TouchableOpacity
   onPress={() => {
-    setVisible(true);
+    saveToStorage();      
+    setVisible(true);     
     navigation.navigate("Mealdet", { meal: Meal });
   }}
 >
-          <Ionicons name="add-circle" size={26} color="orange" />
-        </TouchableOpacity>
+  <Ionicons name="add-circle" size={26} color="orange" />
+</TouchableOpacity>
+
+
       </View>
 
       
@@ -75,15 +86,9 @@ export default function Mealcard({ Meal, navigation }) {
               size={50} 
               color="orange" 
               style={styles.cartIcon} 
-              onPress={saveToStorage}
+             
             />
-            <AntDesign 
-              name="star" 
-              size={50} 
-              color="orange" 
-              style={styles.cartIcon}
-              onPress={getFormStoge}
-            />
+            
 
             <Text style={styles.modalTitle}>Add to Cart</Text>
 
