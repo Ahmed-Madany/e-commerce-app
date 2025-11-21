@@ -1,23 +1,33 @@
-import React from 'react'
-import { ScrollView, StyleSheet, Text, View , TextInput, Image } from 'react-native'
+import React, { useContext } from 'react'
+import { ScrollView, StyleSheet, Text, View , TextInput, Image, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { theme } from '../context/ThemeContext';
 
 export default function Home({navigation}) {
+
+  var {isDark, setIsDark} = useContext(theme);
+  console.log(isDark);
+
+  
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{  flex: 1 , backgroundColor: isDark ? "#000" : "#fff"}}>
       <ScrollView>
 
         <View style={styles.header}>
           <MaterialIcons name="legend-toggle" size={28} color="gray" />
           <Text style={styles.deliver}>Deliver to</Text>
           <Entypo name="shopping-bag" size={28} color="black" />
+           <TouchableOpacity onPress={() => setIsDark(!isDark)}>
+  <Text style={{ color: isDark ? "#fff" : "#000", fontSize: 20 }}>
+         <MaterialCommunityIcons name="theme-light-dark" size={24} color="orange" />
+  </Text>
+</TouchableOpacity>
         </View>
 
         <View style={styles.hi}>
@@ -137,6 +147,8 @@ export default function Home({navigation}) {
         </View>
 
       </ScrollView>
+     
+
     </SafeAreaView>
   )
 }
