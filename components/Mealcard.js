@@ -2,10 +2,30 @@ import { View, Text, Image, StyleSheet, Modal, TouchableOpacity } from 'react-na
 import React, { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Mealcard({ Meal, navigation }) {
 
   const [modalVisible, setVisible] = useState(false);
+   async function saveToStorage() {
+  try {
+    await AsyncStorage.setItem("meal", JSON.stringify(Meal));
+    console.log("Saved Successfully");
+  } catch (e) {
+    console.log("Error Saving:", e);
+  }
+}
+
+  async function getFormStoge() {
+  try {
+    const jsonValue = await AsyncStorage.getItem("meal");
+    if(jsonValue !== null) {
+      console.log("Stored Meal:", JSON.parse(jsonValue));
+    }
+  } catch (e) {
+    console.log("Error Reading:", e);
+  }
+}
 
   return (
     <TouchableOpacity 
@@ -55,6 +75,14 @@ export default function Mealcard({ Meal, navigation }) {
               size={50} 
               color="orange" 
               style={styles.cartIcon} 
+              onPress={saveToStorage}
+            />
+            <AntDesign 
+              name="star" 
+              size={50} 
+              color="orange" 
+              style={styles.cartIcon}
+              onPress={getFormStoge}
             />
 
             <Text style={styles.modalTitle}>Add to Cart</Text>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TextInput, FlatList, ScrollView } from 'react-native';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import Mealcard from './Mealcard';
-
 export default function Review({ navigation }) {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
