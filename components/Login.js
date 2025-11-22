@@ -1,10 +1,20 @@
-import React from 'react'
-import { ImageBackground, Text, View, StyleSheet, TextInput  , TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
+import { ImageBackground, Text, View, StyleSheet, TextInput  , TouchableOpacity, Image } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as ImagePicker from 'expo-image-picker';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 export default function Login({navigation}) {
+  const [img,setImg] = useState(null)
+ async function uploadImg() {
+    //request permission
+   await ImagePicker.requestCameraPermissionsAsync()
+    //pick image
+  var x= await ImagePicker.launchImageLibraryAsync()
+setImg(x.assets[0].uri)
+
+  }
   return (
     <View style={{ flex: 1 }}>
 
@@ -12,7 +22,10 @@ export default function Login({navigation}) {
         source={require('../assets/back.jpg')}
         style={styles.header}
       >
-        <Text style={styles.title}>Log In</Text>
+    <Image 
+          source={{ uri: img }}
+          style={{ width: 100, height: 100, borderRadius: 50, backgroundColor:"#eee" }} 
+        />        <Text style={styles.title}>Log In</Text>
         <Text style={styles.subtitle}>Please sign in to your existing account</Text>
       </ImageBackground>
 
@@ -44,6 +57,17 @@ export default function Login({navigation}) {
           </View>
           <Text style={styles.coloor}>Forgot Password?</Text>
         </View>
+      
+    <TouchableOpacity 
+  onPress={uploadImg} 
+  activeOpacity={0.7} 
+  style={{ flexDirection: "row", alignItems: "center", marginBottom: 15 }}
+>
+  <FontAwesome name="photo" size={24} color="black" />
+  <Text style={{ color: "black", fontWeight: "bold", fontSize: 16, marginLeft: 10 }}>
+    Change Photo
+  </Text>
+</TouchableOpacity>
 
        
         <TouchableOpacity style={styles.loginBtn} activeOpacity={0.7}>
