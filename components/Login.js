@@ -3,8 +3,8 @@ import { ImageBackground, Text, View, StyleSheet, TextInput  , TouchableOpacity 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-
-function Login() {
+import * as ImagePicker from 'expo-image-picker';
+export default function Login({navigation}) {
   return (
     <View style={{ flex: 1 }}>
 
@@ -179,4 +179,3 @@ loginBtn: {
   }
 })
 
-export default Login

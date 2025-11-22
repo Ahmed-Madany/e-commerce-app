@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from './components/Home';
 import Review from './components/Review';
 import Mealdet from './components/Mealdet';
+import Login from './components/Login';
 import { ThemeProvider } from './context/ThemeContext';
 import { useState } from 'react';
 import Cart from './components/Cart';
@@ -48,6 +49,16 @@ function MyTabs() {
         )
       }}
     />
+    <Bottom.Screen
+      name="Login"
+      component={Login}
+      options={{
+        tabBarIcon: ({ color }) => (
+          <AntDesign name="login" size={24} color={color} />
+        )
+    
+      }}
+    />
     </Bottom.Navigator>
   );
 }
@@ -75,6 +86,10 @@ export default function App() {
         <Stack.Screen
           name="Cart"
           component={Cart}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
         />
       </Stack.Navigator>
     </NavigationContainer>
